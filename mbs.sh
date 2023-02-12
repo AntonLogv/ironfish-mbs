@@ -118,27 +118,6 @@ function CheckResultFunc() {
     fi
 }
 
-
-function FaucetRequestFunc() {
-    echo
-    if [[ ${1} != '' ]]; then
-        FAUCET_RESULT=$(echo -e "${1}\n\n" | ironfish faucet)
-        if [[ ${FAUCET_RESULT} == *"Congratulations"* ]]; then
-            echo -e "${1}.\n\n$(PrintTime) faucet just added your request to the queue.\n"
-        else
-            echo -e "${1}.\n\n$(PrintTime) faucet request failed.\n"
-        fi
-    else
-        FAUCET_RESULT=$(echo -e "\n\n" | ironfish faucet)
-        if [[ ${FAUCET_RESULT} == *"Congratulations"* ]]; then
-            echo -e "...\n\n$(PrintTime) faucet just added your request to the queue.\n"
-        else
-            echo -e "...\n\n$(PrintTime) faucet request failed.\n"
-        fi
-    fi
-}
-
-
 function GetBinaryFunc() {
     BINARY=$(which ironfish)
     if [[ ${BINARY} == "" ]]; then
@@ -181,13 +160,7 @@ function MainFunc() {
     BIN=$(GetBinaryFunc)
     GRAFFITI=$(echo $(${BIN} config:get blockGraffiti) | sed 's/\"//g')
 
-    if [[ ${MAIL} != "" ]]; then
-        FaucetRequestFunc "${MAIL}"
-    else
-        FaucetRequestFunc
-    fi
-
-    if [ $(echo "$(GetBalanceFunc) > $min_balance" | bc ) -eq 1 ]; then
+       if [ $(echo "$(GetBalanceFunc) > $min_balance" | bc ) -eq 1 ]; then
         TryUntilSuccessLocalFunc "MintFunc"
         if [[ ${START_FROM_ZERO} == "false" ]]; then
             TryUntilSuccessLocalFunc "BurnFunc"
