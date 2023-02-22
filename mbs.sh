@@ -1,7 +1,7 @@
 #/usr/bin/bash
 
 fee=0.0000001
-min_balance=$fee*3
+min_balance=0.0000003
 
 function PrintTime() {
     echo -e "[ $(date +"%d-%m-%y | %T") ]"
