@@ -160,7 +160,7 @@ function MainFunc() {
     BIN=$(GetBinaryFunc)
     GRAFFITI=$(echo $(${BIN} config:get blockGraffiti) | sed 's/\"//g')
 
-       if [ $(echo "$(GetBalanceFunc) > $min_balance" | bc ) -eq 1 ]; then
+       if [[ $(echo "$(GetBalanceFunc) > $min_balance" | bc ) -eq 1 ]]; then
         TryUntilSuccessLocalFunc "MintFunc"
         if [[ ${START_FROM_ZERO} == "false" ]]; then
             TryUntilSuccessLocalFunc "BurnFunc"
